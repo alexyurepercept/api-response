@@ -1,0 +1,27 @@
+{
+  "name": "@repercept/api-response",
+  "version": "0.1.0",
+  "description": "api resposne constructor",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "doc:github": "./node_modules/.bin/jsdoc2md --template README.hbs --files index.js > README.md"
+  },
+  "keywords": [
+    "api",
+    "api gateway",
+    "response",
+    "json"
+  ],
+  "author": "alex.yu@repercept.com",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "=v24.5.0",
+    "jsdoc": "=v3.5.5",
+    "jsdoc-to-markdown": "=v4.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:alexyurepercept/api-response.git"
+  }
+}

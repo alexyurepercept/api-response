@@ -1,0 +1,60 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  testdev:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.11
+
+    working_directory: ~/api-response
+
+    steps:
+      - checkout
+
+      - run:
+          name: npm install
+          command: npm install
+      - run:
+          name: npm test
+          command: npm test
+  deployprod:
+    docker:
+      - image: circleci/node:8.11
+
+    working_directory: ~/api-response
+
+    steps:
+      - checkout
+
+      - run:
+          name: create npmrc
+          command: echo '//registry.npmjs.org/:_authToken=${NPM_ACCESS_TOKEN}' > ../.npmrc
+
+      - run:
+          name: npm install
+          command: npm install
+
+      - run:
+          name: npm publish
+          command: npm publish --access public
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - testdev:
+          filters:
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
+      - deployprod:
+          context: npm-deploy
+          requires:
+            - testdev
+          filters:
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
+            branches:
+              ignore: /.*/

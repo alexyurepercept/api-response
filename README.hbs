@@ -1,0 +1,58 @@
+# API Response
+
+
+## Install
+```
+npm install --save @repercept/api-response
+```
+
+## Getting Started
+
+
+#### Success response
+```
+const APIResponse = require('@repercept/api-response')
+
+let apiResp = new APIResponse()
+APIResponse.data = {"status": "ok"}
+apiResp.serialize() // {"item": {"status": "ok"}}
+
+APIResponse.data = [{"id": 1}, {"id": 2}]
+apiResp.serialize() // {"items": [{"id": 1}, {"id": 2}]}
+
+```
+
+
+#### Error response
+```
+const APIResponse = require('@repercept/api-response')
+
+let apiResp = new APIResponse()
+let err = new Error()
+APIResponse.addError(err)
+apiResp.serialize() // {"errors": [{code: "UNKNOWN", message: "detailed stack trace...."}]}
+
+```
+
+#### Add customized error
+
+```
+let apiResp = new APIResponse()
+APIResponse.addError({code: "BAD_REQUEST", message: "bad request"})
+apiResp.serialize() // {"errors": [{code: "BAD_REQUEST", message: "bad request"}]}
+```
+
+#### AWS API Gateway Response
+```
+const APIResponse = require('@repercept/api-response')
+
+let apiResp = new APIResponse()
+APIResponse.data = {"status": "ok"}
+apiResp.apiGateway().serialize(200, {"accept": "appliation/json"})
+// {statusCode: 200, body: "{\"status\": \"ok\"}", headers: {"accept": "appliation/json"}}
+
+```
+
+## API Reference
+
+{{>main}}
