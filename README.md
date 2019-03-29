@@ -53,6 +53,17 @@ apiResp.apiGateway().serialize(200, {"accept": "appliation/json"})
 
 ```
 
+If you want to return html content
+```
+const APIResponse = require('@repercept/api-response')
+
+let apiResp = new APIResponse()
+APIResponse.data = "<html>"
+apiResp.apiGateway().serialize(200, {"Content-Type": "text/html"})
+// {statusCode: 200, body: "<html>", headers: {"accept": "appliation/json"}}
+
+```
+
 ## API Reference
 
 ## Classes

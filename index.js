@@ -95,10 +95,16 @@ class APIGatewayResponse {
    * @param {Object} headers
    */
   serialize(statusCode, headers) {
+    let body;
+    if (headers["Content-Type"] === "text/html") {
+      body = this.apiResponse.data;
+    } else {
+      body = JSON.stringify(this.apiResponse.serialize());
+    }
     return {
       statusCode: statusCode || 200,
       headers: headers || {},
-      body: JSON.stringify(this.apiResponse.serialize())
+      body
     };
   }
 }

@@ -59,4 +59,17 @@ describe("API Response", () => {
       })
     });
   });
+
+  test("Should be able to format html content", async () => {
+    let apiResponse = new APIResponse();
+    apiResponse.data = `<html></html>`;
+    let resp = apiResponse
+      .apiGateway()
+      .serialize(200, { "Content-Type": "text/html" });
+    expect(resp).toEqual({
+      statusCode: 200,
+      headers: { "Content-Type": "text/html" },
+      body: apiResponse.data
+    });
+  });
 });
