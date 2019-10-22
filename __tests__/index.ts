@@ -1,32 +1,32 @@
-const APIResponse = require("../index");
-describe("API Response", () => {
-  test("Should be able to format the error", async () => {
+import { APIResponse } from '../src/index';
+describe('API Response', () => {
+  test('Should be able to format the error', async () => {
     let apiResponse = new APIResponse();
     let err = new Error();
     apiResponse.addError(err);
     let resp = apiResponse.serialize();
     expect(resp.errors.length).toEqual(1);
     expect(resp.errors).toContainEqual({
-      code: "UNKNOWN",
+      code: 'UNKNOWN',
       message: err.stack
     });
 
     apiResponse.addError({
-      code: "test",
-      message: "test"
+      code: 'test',
+      message: 'test'
     });
     expect(resp.errors.length).toEqual(2);
     expect(resp.errors).toContainEqual({
-      code: "UNKNOWN",
+      code: 'UNKNOWN',
       message: err.stack
     });
     expect(resp.errors).toContainEqual({
-      code: "test",
-      message: "test"
+      code: 'test',
+      message: 'test'
     });
   });
 
-  test("Should be able to format success response", async () => {
+  test('Should be able to format success response', async () => {
     let apiResponse = new APIResponse();
     apiResponse.data = {
       test: true
@@ -43,15 +43,15 @@ describe("API Response", () => {
     expect(resp.items).toContainEqual({ test: false });
   });
 
-  test("Should be able to format api gateway response", async () => {
+  test('Should be able to format api gateway response', async () => {
     let apiResponse = new APIResponse();
     apiResponse.data = {
       test: true
     };
-    let resp = apiResponse.apiGateway().serialize(200, { headers: "true" });
+    let resp = apiResponse.apiGateway().serialize(200, { headers: 'true' });
     expect(resp).toEqual({
       statusCode: 200,
-      headers: { headers: "true" },
+      headers: { headers: 'true' },
       body: JSON.stringify({
         item: {
           test: true
@@ -60,15 +60,15 @@ describe("API Response", () => {
     });
   });
 
-  test("Should be able to format html content", async () => {
+  test('Should be able to format html content', async () => {
     let apiResponse = new APIResponse();
     apiResponse.data = `<html></html>`;
     let resp = apiResponse
       .apiGateway()
-      .serialize(200, { "Content-Type": "text/html" });
+      .serialize(200, { 'Content-Type': 'text/html' });
     expect(resp).toEqual({
       statusCode: 200,
-      headers: { "Content-Type": "text/html" },
+      headers: { 'Content-Type': 'text/html' },
       body: apiResponse.data
     });
   });

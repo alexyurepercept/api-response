@@ -1,10 +1,13 @@
 {
   "name": "@repercept/api-response",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "api resposne constructor",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "test": "jest",
+    "build": "tsc",
+    "prepublish": "npm test && npm run build",
     "doc:github": "./node_modules/.bin/jsdoc2md --template README.hbs --files index.js > README.md"
   },
   "keywords": [
@@ -16,12 +19,20 @@
   "author": "alex.yu@repercept.com",
   "license": "ISC",
   "devDependencies": {
-    "jest": "=v24.5.0",
+    "@types/jest": "=v24.0.19",
+    "@types/node": "=v10.12.12",
+    "@types/q": "=v1.5.1",
+    "jest": "=v23.6.0",
     "jsdoc": "=v3.5.5",
-    "jsdoc-to-markdown": "=v4.0.1"
+    "jsdoc-to-markdown": "=v4.0.1",
+    "ts-jest": "=v23.10.5",
+    "typescript": "=v3.2.2"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:alexyurepercept/api-response.git"
-  }
+  },
+  "files": [
+    "dist/**/*"
+  ]
 }

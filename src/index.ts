@@ -19,10 +19,17 @@
  * @property {Array} errors Contains a list of API Errors
  */
 
+export interface APIError {
+  code: string;
+  message: string;
+}
+
 /**
  * Class APIResponse constructor
  */
-class APIResponse {
+export class APIResponse {
+  errors: APIError[];
+  data: {};
   constructor() {
     this.errors = [];
     this.data = {};
@@ -33,11 +40,11 @@ class APIResponse {
    * @param {Error | APIError} err - The handcrafted error object or nodejs native Error object
    * @returns {APIResponse}
    */
-  addError(err) {
+  addError(err: APIError | Error) {
     if (err instanceof Error) {
       this.errors.push({
-        code: "UNKNOWN",
-        message: err.stack
+        code: 'UNKNOWN',
+        message: err.stack || ''
       });
     } else if (err) {
       this.errors.push(err);
@@ -81,11 +88,12 @@ class APIResponse {
  * Class APIGatewayResponse constructor
  */
 class APIGatewayResponse {
+  apiResponse: APIResponse;
   /**
    *
    * @param {APIResponse} apiResponse
    */
-  constructor(apiResponse) {
+  constructor(apiResponse: APIResponse) {
     this.apiResponse = apiResponse;
   }
 
@@ -94,9 +102,9 @@ class APIGatewayResponse {
    * @param {number} statusCode
    * @param {Object} headers
    */
-  serialize(statusCode, headers) {
+  serialize(statusCode: number, headers: { [key: string]: string }) {
     let body;
-    if (headers["Content-Type"] === "text/html") {
+    if (headers['Content-Type'] === 'text/html') {
       body = this.apiResponse.data;
     } else {
       body = JSON.stringify(this.apiResponse.serialize());
@@ -108,5 +116,3 @@ class APIGatewayResponse {
     };
   }
 }
-
-module.exports = APIResponse;
